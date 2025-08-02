@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 6f;
     public float dashSpeed = 15f;
     public float dashDuration = 0.2f;
+    private float dashCooldown = 5f; 
 
     private bool isDashing = false;
     private float dashTime = 0f;
@@ -99,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
         if (dashCooldownTimer != null)
         {
             dashCooldownTimer.timer = 5; 
-            StartCoroutine(DashCooldown());
+            
         }
         
         if (trailRenderer != null)
@@ -112,19 +113,21 @@ public class PlayerMovement : MonoBehaviour
     private void EndDash()
     {
         isDashing = false;
-      
+
         if (trailRenderer != null)
         {
             trailRenderer.enabled = false;
         }
     }
-
-    private System.Collections.IEnumerator DashCooldown()
+    private void OnTriggerEnter(Collider other)
     {
-        while (dashCooldownTimer.timer > 0)
+        if (other.CompareTag("DashCooldown"))
         {
-            yield return null;
+            canDash = true;
+            if (dashCooldownTimer != null)
+            {
+                dashCooldownTimer.timer = 5; 
+            }
         }
-        canDash = true;
     }
 }
