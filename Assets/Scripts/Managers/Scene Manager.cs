@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    public Scene Level01; 
+    [Tooltip("Name of the scene to load when the button is clicked.")]
+    public string LoadScene; 
     public void LoadSceneByName()
     {
         SceneManager.LoadScene("Level01");
